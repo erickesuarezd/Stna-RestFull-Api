@@ -12,7 +12,8 @@ class FabricanteController extends Controller {
 
 	public function __construct()
 	{
-		$this->middleware('auth.basic', ['only' => ['store', 'update', 'destroy']]);
+		// 'update',
+		$this->middleware('auth.basic', ['only' => ['store', 'destroy']]);
 	}
 	/**
 	 * Display a listing of the resource.
@@ -37,7 +38,7 @@ class FabricanteController extends Controller {
 		}
 
 		Fabricante::create($request->all());
-		return response()->json(['mensaje' => 'Fabricante Insertado'],201);
+		return response()->json(['mensaje' => 'Fabricante insertado'],201);
 	}
 
 	/**
@@ -59,25 +60,56 @@ class FabricanteController extends Controller {
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		return 'Mostrando formulario para editar al Fabricante con id '.$id;
-	}
-
-	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request, $id)
 	{
-		//
+		$metodo = $request->method();
+
+		$fabricante = Fabricante::find($id);
+
+		if (!$fabricante)
+		{
+			return response()->json(['mensaje' => 'No se encuentra el fabricante con el id '.$id, 'codigo' => 404],404);
+		}
+
+		if($metodo === 'PATCH')
+		{
+			$nombre = $request ->input('nombre');
+
+			if($nombre != null && $nombre != '')
+			{
+				$fabricante -> nombre = $nombre;
+			}
+
+			$telefono = $request ->input('telefono');
+
+			if($telefono != null && $telefono != '')
+			{
+				$fabricante -> telefono = $telefono;
+			}
+
+			$fabricante->save();
+
+			return response()->json(['mensaje' => 'Fabricante actualizado'],200);
+
+		}else{
+			$nombre = $request ->input('nombre');
+			$telefono = $request ->input('telefono');
+
+			if(!$nombre || !$telefono)
+			{
+				return response()->json(['mensaje' => 'No se pudieron procesar los valores','codigo' => 404],404);
+			} else{
+				$fabricante -> nombre = $nombre;
+				$fabricante -> telefono = $telefono;
+				$fabricante->save();
+				return response()->json(['mensaje' => 'Fabricante actualizado'],200);
+			}
+		}
 	}
 
 	/**
