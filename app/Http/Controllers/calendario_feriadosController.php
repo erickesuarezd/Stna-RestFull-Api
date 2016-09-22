@@ -5,10 +5,9 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Vehiculo;
+use App\Calendario_Feriados;
 
-class VehiculoController extends Controller {
-
+class calendario_feriadosController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -17,7 +16,7 @@ class VehiculoController extends Controller {
 	 */
 	public function index()
 	{
-		return response()->json(['datos' => Vehiculo::all()],200);
+		return response()->json(['datos' => Calendario_Feriados::all()],200);
 	}
 
 	/**
@@ -48,14 +47,7 @@ class VehiculoController extends Controller {
 	 */
 	public function show($id)
 	{
-		$vehiculo = Vehiculo::find($id);
 
-		if(!$vehiculo)
-		{
-			return response()->json(['mensaje' => 'No se encuentra el vehiculo con el id '.$id, 'codigo' => 404],404);
-		}
-
-		return response()->json(['datos' => $vehiculo],200);
 	}
 
 	/**

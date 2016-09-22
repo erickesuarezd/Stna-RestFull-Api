@@ -15,3 +15,7 @@ Route::resource('vehiculos','VehiculoController', ['only' => ['index','show']]);
 Route::resource('fabricantes','FabricanteController');
 
 Route::resource('fabricantes.vehiculos','FabricanteVehiculoController', ['except' => ['show']]);
+
+Route::resource('registro_empresa','registro_empresaController');
+
+Route::resource('calendario_feriados','calendario_feriadosController', ['only' => ['index','show']]);
