@@ -5,9 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Fabricante;
 class FabricanteController extends Controller {
-	public function __construct()
+	public function __construct() 
 	{
-		$this->middleware('oauth', ['only' => ['store', 'update', 'destroy']]);
+		$this->middleware('auth.basic.once',['only' => ['store','update','destroy']]);
 	}
 	/**
 	 * Display a listing of the resource.
