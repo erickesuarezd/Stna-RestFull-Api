@@ -191,7 +191,16 @@ class registro_empresaController extends Controller {
 	 */
 	public function destroy($id)
 	{
-			return 'Peticion de eliminacion recibida';
+		$registro = Registro_Empresa::find($id);
+
+		if (!$registro)
+		{
+			return response()->json(['mensaje' => 'No se encuentra la empresa con el registro '.$id, 'codigo' => 404],404);
+		}
+
+		$registro->delete();
+
+		return response()->json(['mensaje' => 'Registro de empresa eliminado'],200);
 	}
 
 }
